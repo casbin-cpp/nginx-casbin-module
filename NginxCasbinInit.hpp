@@ -46,7 +46,7 @@ class NgxCasbinInit final {
             //     }
             // }
 
-            return NGX_OK;            
+            return NGX_CONF_OK;            
         }
 
         static char* casbin_adopter_parser(ngx_conf_t* cf, ngx_command_t* cmd, void* conf) {
@@ -72,7 +72,7 @@ class NgxCasbinInit final {
             // Test command Parse cb
             // NgxHttpCoreModule::instance().handler(cf, casbin_adopter_command_cb);
 
-            return NGX_OK;
+            return NGX_CONF_OK;
         }
 
         static ngx_int_t casbin_adopter_command_cb(ngx_http_request_t* r) {
