@@ -1,0 +1,9 @@
+# vim: set ft=sh et:
+ngx_addon_name=ngx_http_casbin_module
+
+ngx_module_type=HTTP
+ngx_module_name="$ngx_addon_name"
+ngx_module_srcs="$ngx_addon_dir/NginxCasbinModule.cpp"
+ngx_module_libs="-lcasbin"
+
+. auto/module
