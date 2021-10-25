@@ -31,20 +31,23 @@ class NgxCasbinInit final {
             // TODO: whether can cached the casbin enforcer here. 
             auto ok = ngx_conf_set_flag_slot(cf, cmd, conf);
 
-            if(ok != NGX_OK) {
+            if (ok != NGX_OK) {
                 NgxLogError(cf).print("parse error");
             }
 
+#ifdef CASBIN_MODULE_TEST
             // Test command parse
-            // if(NgxValue::isvalid(my_cf->enabled)) {
-            //     std::cout << "casbin is not set " << std::endl;
-            // }else {
-            //     if(my_cf->enabled) {
-            //         std::cout << "casbin is on" << std::endl;
-            //     } else {
-            //         std::cout << "casbin is off" << std::endl;
-            //     }
-            // }
+            auto my_cf = (conf_type*) conf;
+            if (NgxValue::isvalid(my_cf->enabled)) {
+                std::cout << "casbin is not set " << std::endl;
+            } else {
+                if (my_cf->enabled) {
+                    std::cout << "casbin is on" << std::endl;
+                } else {
+                    std::cout << "casbin is off" << std::endl;
+                }
+            }
+#endif
 
             return NGX_CONF_OK;            
         }
@@ -54,7 +57,7 @@ class NgxCasbinInit final {
             
             auto arr = NgxArray<ngx_str_t>(cf->args);
 
-            if(arr.size() < 4) {
+            if (arr.size() < 4) {
                 return (char*)NGX_ERROR;
             }
 
@@ -63,39 +66,41 @@ class NgxCasbinInit final {
             mcf->policy_path = arr[3];
 
             auto str = NgxString(mcf->adopter);
-            if(str.isSame(ngx_string("file"))) {
+            if (str.isSame(ngx_string("file"))) {
                 mcf->adopter_type = conf_type::ADOPTER_TYPE::FILE_ADOPTER;
             } else {
                 mcf->adopter_type = conf_type::ADOPTER_TYPE::UNKNOW_TYPE;
             }
 
+#ifdef CASBIN_MODULE_TEST
             // Test command Parse cb
             // NgxHttpCoreModule::instance().handler(cf, casbin_adopter_command_cb);
-
+#endif
             return NGX_CONF_OK;
         }
 
+#ifdef CASBIN_MODULE_TEST
         static ngx_int_t casbin_adopter_command_cb(ngx_http_request_t* r) {
 
             extern ngx_module_t ngx_http_casbin_module;
             NgxCasbinConf* mcf =  reinterpret_cast<conf_type*>(r->loc_conf[ngx_http_casbin_module.ctx_index]);
 
-            if(!NgxString(mcf->adopter).empty()) {
+            if (!NgxString(mcf->adopter).empty()) {
                 NgxLogInfo(r).print("casbin adopter: %V", &(mcf->adopter));
             }
 
-            if(!NgxString(mcf->model_path).empty()) {
+            if (!NgxString(mcf->model_path).empty()) {
                 NgxLogInfo(r).print("casbin model path: %V", &(mcf->model_path));
             }
 
-            if(!NgxString(mcf->policy_path).empty()) {
+            if (!NgxString(mcf->policy_path).empty()) {
                 NgxLogInfo(r).print("casbin policy path: %V", &(mcf->policy_path));
             }
 
-            if(NgxValue::isvalid(mcf->enabled)) {
+            if (NgxValue::isvalid(mcf->enabled)) {
                     NgxLogInfo(r).print("casbin not set");
-            }else {
-                if(mcf->enabled) {
+            } else {
+                if (mcf->enabled) {
                     NgxLogInfo(r).print("casbin on");
                 } else {
                     NgxLogInfo(r).print("casbin off");
@@ -104,7 +109,8 @@ class NgxCasbinInit final {
 
             return NGX_DECLINED;
         }
-    
+#endif    
+
         static ngx_command_t* cmds() {
             static ngx_command_t n[] = {
                 {

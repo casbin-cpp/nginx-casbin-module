@@ -20,17 +20,11 @@
 class NgxException final: public std::exception {
     public:
         NgxException(ngx_int_t x, std::string msg):
-            m_code(x), m_msg(msg) {
-
-            }
+            m_code(x), m_msg(msg) {}
         NgxException(ngx_int_t x = NGX_ERROR):
-            NgxException(x, "") {
-
-            }
+            NgxException(x, "") {}
         NgxException(std::string msg): 
-            NgxException(NGX_ERROR, msg) {
-                 
-            }
+            NgxException(NGX_ERROR, msg) {}
         ~NgxException() = default;
     public:
         static void raise(ngx_int_t rc = NGX_ERROR, std::string msg = "") {
@@ -38,7 +32,7 @@ class NgxException final: public std::exception {
         }
 
         static void require(bool cond, ngx_int_t e = NGX_ERROR, std::string msg = "") {
-            if(!cond) {
+            if (!cond) {
                 raise(e, msg);
             }
         }

@@ -70,7 +70,7 @@ class NgxDatetime final {
             auto p = ngx_snprintf(buf, 20, "%d-%02d-%02d", tm,
                     tm.tm_year, tm.tm_mon, tm.tm_mday);
             
-            return ngx_str_t{
+            return ngx_str_t {
                 static_cast<std::size_t>(p - buf), buf
             };
         }
@@ -86,7 +86,6 @@ class NgxDatetime final {
             return ngx_http_parse_time(str.data, str.len);
         }
 };
-
 
 
 #endif

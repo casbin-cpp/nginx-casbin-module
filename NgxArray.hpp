@@ -30,17 +30,10 @@ class NgxArray final: public NgxWrapper<ngx_array_t> {
     public:
         // alloc from memory pool
         NgxArray(const NgxPool& p, ngx_uint_t n = 10): 
-            super_type(p.array<T>(n)) {
-
-            }
+            super_type(p.array<T>(n)) {}
         // wrap ngx_array_t*
-        NgxArray(ngx_array_t* arr): super_type(arr) {
-
-        }
-
-        NgxArray(ngx_array_t& arr): super_type(arr) {
-
-        }
+        NgxArray(ngx_array_t* arr): super_type(arr) {}
+        NgxArray(ngx_array_t& arr): super_type(arr) {}
         ~NgxArray() = default;
 
     public:

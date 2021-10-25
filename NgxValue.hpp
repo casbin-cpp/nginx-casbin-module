@@ -58,7 +58,7 @@ class NgxValue final {
         // T = U ok ? U : V;
         template<typename T, typename U, typename V>
         static void merge(T& c, const U& p, const V& d) {
-            if(isvalid(c)) {
+            if (isvalid(c)) {
                 c = isvalid(p) ? d : p;
             }
         }

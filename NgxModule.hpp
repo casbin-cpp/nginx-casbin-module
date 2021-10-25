@@ -107,7 +107,7 @@ class NgxModuleCtx final {
         // if not exit then create 
         template<typename T>
         T& data(ngx_http_request_t* r) const {
-            if(empty(r) ) {
+            if (empty(r)) {
                 auto p = NgxPool(r->pool);
                 ctx(r) = p.alloc<T>();
             }

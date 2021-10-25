@@ -20,6 +20,8 @@
 #include <string>   // for new
 #include <string_view>
 #include <algorithm>
+#include <chrono>
+#include <thread>
 
 #include <nginx.h>      // for NGINX_VER...
 

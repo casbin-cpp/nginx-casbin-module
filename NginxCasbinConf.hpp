@@ -50,6 +50,7 @@ public:
         return ret;
     }
 
+    // TODO: merge http/server level config 
     // static char* merge(ngx_conf_t *cf, void *parent, void *child)
     // {
     //     boost::ignore_unused(cf);

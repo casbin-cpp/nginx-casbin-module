@@ -29,7 +29,6 @@ class NgxWrapper {
     private:
         wrap_pointer m_ptr = nullptr;
 
-    // base class, must be used by son.
     protected:
         // pass pointer
         NgxWrapper(wrap_pointer p): m_ptr(p) {} 

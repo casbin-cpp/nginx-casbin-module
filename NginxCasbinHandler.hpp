@@ -62,7 +62,7 @@ class NgxCasbinHandler final {
             auto model_path = NgxString(mcf->model_path).strcpy();
             auto policy_path = NgxString(mcf->policy_path).strcpy();
 
-            if(mcf->enabled == (long int)1) {
+            if (mcf->enabled == (long int)1) {
 
                 // TODO 
                 // 1. build enforcer by different model and policy
@@ -103,7 +103,7 @@ class NgxCasbinHandler final {
     public:
         static ngx_int_t get_result(casbin::Enforcer& e, casbin::DataVector& req, ngx_http_request_t* r) {
 
-            if(!e.Enforce(req)) {
+            if (!e.Enforce(req)) {
                 NgxLogDebug(r).print("%V Can't be permitted to access", &(r->unparsed_uri));
 
                 return NGX_HTTP_FORBIDDEN;
@@ -125,7 +125,7 @@ class NgxCasbinHandler final {
 
             std::vector<std::string> basic_tokens;
 
-            for(auto token: tokens) {
+            for (auto token: tokens) {
                 auto idx = token.find('_');
                 origin_tokens.push_back(token.substr(idx + 1));
             }
@@ -137,7 +137,7 @@ class NgxCasbinHandler final {
 
             casbin::DataVector req;
 
-            for(auto& origin_token: origin_tokens) {
+            for (auto& origin_token: origin_tokens) {
                 auto req_ele = mreq.arg(origin_token.c_str());
                 req.push_back(NgxString(req_ele).strcpy());
             }
@@ -156,14 +156,14 @@ class NgxCasbinHandler final {
 
             std::vector<std::string> basic_tokens;
 
-            for(auto token: tokens) {
+            for (auto token: tokens) {
                 auto idx = token.find('_');
                 basic_tokens.push_back(token.substr(idx + 1));
             }
 
             assert(basic_tokens.size() == tokens.size());
 
-            for(std::size_t i = 0; i < basic_tokens.size(); i++ ) {
+            for (std::size_t i = 0; i < basic_tokens.size(); i++ ) {
                 assert(target_tokens[i].compare(basic_tokens[i]) == 0);
             }
 
@@ -181,12 +181,11 @@ class NgxCasbinHandler final {
             auto obj = NgxString(objstr).strcpy();
             auto act = NgxString(actstr).strcpy();
 
-            if(!e.Enforce({sub, obj, act})) {
+            if (!e.Enforce({sub, obj, act})) {
                 NgxLogDebug(r).print("%V can't be permitted to %V access %V",
                                     &substr, &objstr, &actstr);
 
                 return NGX_HTTP_FORBIDDEN;
-
             } else {
                 NgxLogDebug(r).print("%V can be permitted to %V access %V",
                                     &substr, &objstr, &actstr);
@@ -199,9 +198,9 @@ class NgxCasbinHandler final {
             
             extern ngx_module_t ngx_http_casbin_module;
             NgxCasbinConf* conf =  reinterpret_cast<NgxCasbinConf*>(r->loc_conf[ngx_http_casbin_module.ctx_index]);
-            if(NgxValue::isvalid(conf->enabled)) {
+            if (NgxValue::isvalid(conf->enabled)) {
                 std::cout << "casbin is not set " << std::endl;
-            }else {
+            } else {
                 if(conf->enabled) {
                     std::cout << "casbin is on" << std::endl;
                 } else {
@@ -231,10 +230,7 @@ class NgxCasbinHandler final {
 
         static void test_clock() {
             auto t = NgxClock();
-
-            for(int i = 0; i < 1e7; i++) {
-                ;
-            }
+            std::this_thread::sleep_for(std::chrono::seconds(1));
             std::cout << "Pass "<< t.elapsed() << "s" << std::endl;
         }
 
@@ -260,11 +256,11 @@ class NgxCasbinHandler final {
             NgxLogDebug(r).print("uri args: %V", &Myr->args);
             // get object from uri
 
-            if(!NgxString(Myr->exten).empty() ) {
+            if (!NgxString(Myr->exten).empty()) {
                 auto uri = NgxString(Myr->uri).str();
-                std::string_view obj = nullptr;
-                for(int i = uri.size() - 1; i >= 0; i --) {
-                    if(uri[i] == '/') {
+                std::string_view obj;
+                for (int i = uri.size() - 1; i >= 0; i --) {
+                    if (uri[i] == '/') {
                         obj = uri.substr(i + 1);
                         break;
                     }
@@ -277,11 +273,11 @@ class NgxCasbinHandler final {
                 auto uri = NgxString(Myr->uri).str();
                 std::string_view obj = nullptr;
 
-                if(uri.size() == 1) {
+                if (uri.size() == 1) {
                     obj = uri;
                 } else {
-                    for(int i = uri.size() - 1; i >= 0; i --) {
-                        if(uri[i] == '/' && i != (int)uri.size() - 1) {
+                    for (int i = uri.size() - 1; i >= 0; i --) {
+                        if (uri[i] == '/' && i != (int)uri.size() - 1) {
                             obj = uri.substr(i + 1);
                             break;
                         }
@@ -306,7 +302,7 @@ class NgxCasbinHandler final {
             arr.push(2);
             arr.push(3);
 
-            for(int i = 0; i < (int)arr.size(); i++ ) {
+            for (int i = 0; i < (int)arr.size(); i++ ) {
                 std::cout << arr[i] << ' ';
             }
 

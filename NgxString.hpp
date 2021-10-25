@@ -58,7 +58,7 @@ class NgxString final : public NgxWrapper<ngx_str_t> {
         }
 
         void tolower() {
-            for(int i = 0; i < (int)size(); i++ ) {
+            for (int i = 0; i < (int)size(); i++ ) {
                 get()->data[i] = ngx_tolower(get()->data[i]);
             }
         }
