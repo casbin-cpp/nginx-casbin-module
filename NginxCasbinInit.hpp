@@ -115,7 +115,7 @@ class NgxCasbinInit final {
             static ngx_command_t n[] = {
                 {
                     ngx_string("casbin"),
-                    NGX_HTTP_LOC_CONF | NGX_CONF_FLAG | NGX_CONF_TAKE1,
+                    NGX_HTTP_SRV_CONF | NGX_HTTP_LOC_CONF | NGX_CONF_FLAG | NGX_CONF_TAKE1,
                     ngx_set_command_call_back,
                     NGX_HTTP_LOC_CONF_OFFSET,
                     offsetof(NgxCasbinConf, enabled),
@@ -123,7 +123,7 @@ class NgxCasbinInit final {
                 },
                 {
                     ngx_string("casbin_adopter"),
-                    NGX_HTTP_SRV_CONF| NGX_HTTP_LOC_CONF | NGX_CONF_TAKE3,
+                    NGX_HTTP_SRV_CONF | NGX_HTTP_LOC_CONF | NGX_CONF_TAKE3,
                     casbin_adopter_parser,
                     NGX_HTTP_LOC_CONF_OFFSET,
                     offsetof(NgxCasbinConf, adopter),
@@ -145,7 +145,7 @@ class NgxCasbinInit final {
                 nullptr,
 
                 &conf_type::create,
-                nullptr
+                &conf_type::merge,
             };
 
             return &c;

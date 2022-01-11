@@ -64,7 +64,6 @@ class NgxCasbinHandler final {
 
             if (mcf->enabled == (long int)1) {
 
-                // TODO 
                 // 1. build enforcer by different model and policy
                 // 2. find key in url by enforcer model
                 // 3. get ans from enforcer 

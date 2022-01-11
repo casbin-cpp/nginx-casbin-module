@@ -35,7 +35,7 @@ public:
     };
 
     // Must init the variable
-    ngx_flag_t enabled =  (ngx_flag_t)NgxUnsetValue::get();
+    ngx_flag_t enabled = (ngx_flag_t)NgxUnsetValue::get();
     ngx_str_t adopter = ngx_null_string;
     ngx_str_t model_path = ngx_null_string;
     ngx_str_t policy_path = ngx_null_string;
@@ -50,18 +50,21 @@ public:
         return ret;
     }
 
-    // TODO: merge http/server level config 
-    // static char* merge(ngx_conf_t *cf, void *parent, void *child)
-    // {
-    //     boost::ignore_unused(cf);
+    static char* merge(ngx_conf_t *cf, void *parent, void *child)
+    {
 
-    //     auto prev = reinterpret_cast<this_type*>(parent);
-    //     auto conf = reinterpret_cast<this_type*>(child);
+        auto prev = reinterpret_cast<this_type*>(parent);
+        auto conf = reinterpret_cast<this_type*>(child);
 
-    //     NgxValue::merge(conf->enabled, prev->enabled, 0);
+        // if location has this this_command, use location option
+        // else use outer loation 
+        // either both, do nothing
+        if (conf->enabled == (ngx_flag_t)NgxUnsetValue::get()) {
+            memcpy(conf, prev, sizeof(this_type));
+        }
 
-    //     return NGX_CONF_OK;
-    // }
+        return NGX_CONF_OK;
+    }
 
     // static ADOPTER_TYPE get_adopter_type (ngx_str_t& adopter_str) {
     //     auto str = NgxString(adopter_str).str();
